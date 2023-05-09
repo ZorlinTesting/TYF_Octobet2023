@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('.static', filename='css/styles.css')}}">
+
+
+
+{% endblock %}
+
+{% block content %}
+<div class="box">
+    <h1>Login</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages: %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    <!--    {% if state == 'no pass': %}-->
+    <!--    <h5 style="color:red; text-align:center;">Email/Password entered did not match</h5>-->
+
+    <!--    {% elif state == 'no email': %}-->
+    <!--    <h5 style="color:red; text-align:center;">Account does not exist</h5>-->
+    <!--    {% endif %}-->
+
+<!--    <form action="{{ url_for('login') }}" method="post">-->
+<!--        <input type="text" name="email" placeholder="Email" required="required"/>-->
+<!--        <input type="password" name="password" placeholder="Password" required="required"/>-->
+<!--        <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>-->
+<!--    </form>-->
+
+    {{ wtf.quick_form(form, novalidate=True) }}
+</div>
+
+{% endblock %}

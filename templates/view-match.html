@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Restaurants{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('.static', filename='css/styles.css')}}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <h1>All Matches</h1>
+
+            <table class="table">
+
+                <thead>
+                <tr>
+                    <th scope="col">Date & Time</th>
+                    <th scope="col">Team 1</th>
+                    <th scope="col"></th>
+                    <th scope="col">Odds</th>
+                    <th scope="col">Team 2</th>
+                    <th scope="col"></th>
+                    <th scope="col">Odds</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <th scope="row">{{ match.datetime }} (bo{{ match.best_of }})</th>
+                    <td><img class="team-icon" src="{{ match.teams[0].img_url }}">{{ match.teams[0].name }}</td>
+                    <td></td>
+                    <td>{{ match.team1_odds }}</td>
+                    <td><img class="team-icon" src="{{ match.teams[1].img_url }}">{{ match.teams[1].name }}</td>
+                    <td></td>
+                    <td>{{ match.team2_odds }}</td>
+                </tr>
+                </tbody>
+            </table>
+            {% if logged_in %}
+
+                {% if active_bet %}
+                    <p>Your Bet:
+                    <br>
+                    > Your Team: {{ active_bet.user_team }}
+                    <br>
+                    > Wager Amount: {{ active_bet.amount }} token/s</p>
+
+                {% else %}
+                    <p>You have {{'%0.2f' % current_user.token_balance|float}} tokens</p>
+                    {{ wtf.quick_form(form, novalidate=True) }}
+                {% endif %}
+
+            {% else %}
+                <p>Please log-in or register to place a bet</p>
+            {% endif %}
+
+            <p><a href="{{ url_for('home') }}">Return to index page</a></p>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Restaurants{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('.static', filename='css/styles.css')}}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <h1>Upcoming Matches</h1>
+
+            <table class="table">
+
+                <thead>
+                <tr>
+                    <th scope="col">Date & Time</th>
+                    <th scope="col">Team 1</th>
+                    <th scope="col"></th>
+                    <th scope="col">Odds</th>
+                    <th scope="col">Team 2</th>
+                    <th scope="col"></th>
+                    <th scope="col">Odds</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for match in match_list %}
+
+                <tr>
+
+                    <th scope="row">
+                        <a href="{{ url_for('single_match', match_id=match.id) }}">{{ match.datetime }}
+                            (bo{{ match.best_of }})
+                        </a>
+                    </th>
+                    <td><img class="team-icon" src="{{ match.teams[0].img_url }}">{{ match.teams[0].name }}</td>
+                    <td></td>
+                    <td>{{ match.team1_odds }}</td>
+                    <td><img class="team-icon" src="{{ match.teams[1].img_url }}">{{ match.teams[1].name }}</td>
+                    <td></td>
+                    <td>{{ match.team2_odds }}</td>
+
+                </tr>
+
+                {% endfor%}
+
+                </tbody>
+            </table>
+            <p><a href="{{ url_for('home') }}">Return to index page</a></p>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
